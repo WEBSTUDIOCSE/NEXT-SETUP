@@ -11,7 +11,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import UserProfile from '@/components/auth/UserProfile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, ArrowLeft } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ProfilePage() {
@@ -27,9 +28,9 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading profile...</p>
+        <div className="text-center space-y-4">
+          <Skeleton className="h-8 w-8 rounded-full mx-auto" />
+          <Skeleton className="h-4 w-32 mx-auto" />
         </div>
       </div>
     );
@@ -101,7 +102,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Email verified:</span>
-                  <span className={user.emailVerified ? 'text-green-600' : 'text-orange-600'}>
+                  <span className={user.emailVerified ? 'text-primary' : 'text-muted-foreground'}>
                     {user.emailVerified ? 'Yes' : 'No'}
                   </span>
                 </div>

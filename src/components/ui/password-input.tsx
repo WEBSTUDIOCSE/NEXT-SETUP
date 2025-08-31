@@ -93,10 +93,10 @@ export default function PasswordInput({
             <div
               className={cn(
                 "h-1 rounded-full transition-all duration-300",
-                strength.score < 2 && "bg-red-500 w-1/4",
-                strength.score >= 2 && strength.score < 3 && "bg-yellow-500 w-2/4",
-                strength.score >= 3 && strength.score < 4 && "bg-blue-500 w-3/4",
-                strength.score >= 4 && "bg-green-500 w-full"
+                strength.score < 2 && "bg-destructive w-1/4",
+                strength.score >= 2 && strength.score < 3 && "bg-muted-foreground w-2/4",
+                strength.score >= 3 && strength.score < 4 && "bg-primary w-3/4",
+                strength.score >= 4 && "bg-primary w-full"
               )}
             />
           </div>

@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, LogOut, Mail, User, Calendar, CheckCircle, AlertCircle } from 'lucide-react';
+import { LogOut, Mail, User, Calendar, CheckCircle, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 
 export default function UserProfile() {
@@ -90,7 +90,7 @@ export default function UserProfile() {
             >
               {loggingOut ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <LogOut className="mr-2 h-4 w-4" />
                   Signing out...
                 </>
               ) : (

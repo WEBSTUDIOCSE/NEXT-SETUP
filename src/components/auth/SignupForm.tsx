@@ -15,7 +15,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Separator } from '@/components/ui/separator';
-import { Loader2, Mail, User, AlertCircle, CheckCircle } from 'lucide-react';
+import { Mail, User, AlertCircle, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
@@ -200,7 +200,6 @@ export default function SignupForm() {
                 className="w-full"
                 disabled={emailLoading || googleLoading}
               >
-                {emailLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {emailLoading ? 'Creating Account...' : 'Create Account'}
               </Button>
             </form>
@@ -217,7 +216,6 @@ export default function SignupForm() {
             onClick={handleGoogleSignup}
             disabled={emailLoading || googleLoading}
           >
-            {googleLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
               <path
                 fill="currentColor"

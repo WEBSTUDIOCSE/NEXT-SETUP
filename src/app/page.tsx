@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -34,18 +36,16 @@ export default function Home() {
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="/login"
-          >
-            Get Started
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="/profile"
-          >
-            View Profile
-          </a>
+          <Link href="/login">
+            <Button size="lg" className="w-full sm:w-auto">
+              Get Started
+            </Button>
+          </Link>
+          <Link href="/profile">
+            <Button variant="outline" size="lg" className="w-full sm:w-auto">
+              View Profile
+            </Button>
+          </Link>
         </div>
       </main>
     </div>
