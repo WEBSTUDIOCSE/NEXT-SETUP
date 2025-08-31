@@ -46,7 +46,7 @@ export const ENVIRONMENTS: Record<'UAT' | 'PROD', EnvironmentConfig> = {
  * Boolean environment switcher
  * Set to true for PROD, false for UAT
  */
-export const IS_PRODUCTION = true;
+export const IS_PRODUCTION = false;
 
 /**
  * Get current environment configuration
