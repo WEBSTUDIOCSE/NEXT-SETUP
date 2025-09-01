@@ -11,7 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import UserProfile from '@/components/auth/UserProfile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
+import { ProfileSkeleton } from '@/components/common/CommonSkeleton';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -28,10 +28,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <Skeleton className="h-8 w-8 rounded-full mx-auto" />
-          <Skeleton className="h-4 w-32 mx-auto" />
-        </div>
+        <ProfileSkeleton className="text-center" />
       </div>
     );
   }

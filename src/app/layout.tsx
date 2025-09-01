@@ -25,7 +25,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  console.log("Current Firebase Env:", verifyEnvironmentConfiguration());
+  // Verify environment configuration on server-side only
+  if (typeof window === 'undefined') {
+    verifyEnvironmentConfiguration();
+  }
+  
   return (
     <html lang="en">
       <body
