@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
-import { logout } from '@/lib/firebase/auth';
+import { APIBook } from '@/lib/firebase/services';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -20,7 +20,7 @@ export default function UserProfile() {
     setLoggingOut(true);
     setLogoutError('');
     
-    const result = await logout();
+    const result = await APIBook.auth.signOut();
     if (!result.success) {
       setLogoutError(result.error || 'Logout failed');
       setLoggingOut(false);

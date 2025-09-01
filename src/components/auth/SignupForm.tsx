@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signupWithEmail, loginWithGoogle } from '@/lib/firebase/auth';
+import { APIBook } from '@/lib/firebase/services';
 import { signupSchema, type SignupFormData } from '@/lib/validations/auth';
 import { AUTH_CONFIG } from '@/lib/auth/config';
 import { useAuth } from '@/contexts/AuthContext';
@@ -50,7 +50,7 @@ export default function SignupForm() {
     setError('');
     setSuccess('');
 
-    const result = await signupWithEmail(data.email, data.password, data.displayName);
+    const result = await APIBook.auth.registerWithEmail(data.email, data.password, data.displayName);
     
     if (result.success) {
       // Dynamic success message based on email verification configuration
@@ -74,7 +74,7 @@ export default function SignupForm() {
     setError('');
     setSuccess('');
 
-    const result = await loginWithGoogle();
+    const result = await APIBook.auth.loginWithGoogle();
     
     if (result.success) {
       router.push('/profile');

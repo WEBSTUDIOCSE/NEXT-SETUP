@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginWithEmail, loginWithGoogle, resetPassword } from '@/lib/firebase/auth';
+import { APIBook } from '@/lib/firebase/services';
 import { loginSchema, resetPasswordSchema, type LoginFormData, type ResetPasswordFormData } from '@/lib/validations/auth';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -54,7 +54,7 @@ export default function LoginForm() {
     setEmailLoading(true);
     setError('');
 
-    const result = await loginWithEmail(data.email, data.password);
+    const result = await APIBook.auth.loginWithEmail(data.email, data.password);
     
     if (result.success) {
       router.push('/profile');
@@ -69,7 +69,7 @@ export default function LoginForm() {
     setGoogleLoading(true);
     setError('');
 
-    const result = await loginWithGoogle();
+    const result = await APIBook.auth.loginWithGoogle();
     
     if (result.success) {
       router.push('/profile');
@@ -81,7 +81,7 @@ export default function LoginForm() {
   };
 
   const onResetSubmit = async (data: ResetPasswordFormData) => {
-    const result = await resetPassword(data.email);
+    const result = await APIBook.auth.resetPassword(data.email);
     if (result.success) {
       setResetEmailSent(true);
       setError('');
