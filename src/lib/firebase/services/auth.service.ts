@@ -12,10 +12,14 @@ import {
   signOut,
   updateProfile,
   sendEmailVerification,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  deleteUser,
   type User,
   type UserCredential
 } from 'firebase/auth';
-import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, getDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { firebaseHandler, firebaseVoidHandler, type ApiResponse } from '../handler';
 import { IS_PRODUCTION } from '../config/environments';
@@ -207,5 +211,70 @@ export const AuthService = {
       
       return transformFirebaseUser(user);
     }, 'auth/update-profile');
+  },
+
+  /**
+   * Change user password
+   */
+  changePassword: async (
+    currentPassword: string,
+    newPassword: string
+  ): Promise<ApiResponse<boolean>> => {
+    return firebaseHandler(async () => {
+      const user = auth.currentUser;
+      if (!user || !user.email) {
+        throw new Error('No authenticated user found');
+      }
+
+      // Re-authenticate user with current password
+      const credential = EmailAuthProvider.credential(user.email, currentPassword);
+      await reauthenticateWithCredential(user, credential);
+
+      // Update password
+      await updatePassword(user, newPassword);
+
+      return true;
+    }, 'auth/change-password');
+  },
+
+  /**
+   * Delete user account
+   */
+  deleteAccount: async (password?: string): Promise<ApiResponse<boolean>> => {
+    return firebaseHandler(async () => {
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error('No authenticated user found');
+      }
+
+      // For email/password users, require re-authentication
+      if (user.providerData[0]?.providerId !== 'google.com' && password) {
+        if (!user.email) {
+          throw new Error('User email is required for re-authentication');
+        }
+        const credential = EmailAuthProvider.credential(user.email, password);
+        await reauthenticateWithCredential(user, credential);
+      }
+
+      // For Google users, they need to re-authenticate with Google popup
+      if (user.providerData[0]?.providerId === 'google.com') {
+        const provider = new GoogleAuthProvider();
+        await signInWithPopup(auth, provider);
+      }
+
+      // Delete user data from Firestore first
+      try {
+        const userDocRef = doc(db, IS_PRODUCTION ? 'prod_users' : 'uat_users', user.uid);
+        await deleteDoc(userDocRef);
+      } catch (firestoreError) {
+        // Log but don't fail if Firestore deletion fails
+        console.warn('Failed to delete user data from Firestore:', firestoreError);
+      }
+
+      // Delete the user account
+      await deleteUser(user);
+
+      return true;
+    }, 'auth/delete-account');
   }
 };

@@ -44,7 +44,36 @@ export const resetPasswordSchema = z.object({
     .email('Invalid email address'),
 });
 
+// Change password form validation schema
+export const changePasswordSchema = z.object({
+  currentPassword: z
+    .string()
+    .min(1, 'Current password is required'),
+  newPassword: passwordValidation,
+  confirmNewPassword: z
+    .string()
+    .min(1, 'Please confirm your new password'),
+}).refine((data) => data.newPassword === data.confirmNewPassword, {
+  message: "New passwords don't match",
+  path: ["confirmNewPassword"],
+});
+
+// Delete account form validation schema
+export const deleteAccountSchema = z.object({
+  password: z
+    .string()
+    .min(1, 'Password is required to delete your account'),
+  confirmText: z
+    .string()
+    .min(1, 'Please type "DELETE" to confirm')
+    .refine((val) => val === 'DELETE', {
+      message: 'Please type "DELETE" exactly to confirm account deletion',
+    }),
+});
+
 // Type exports
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type SignupFormData = z.infer<typeof signupSchema>;
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
+export type DeleteAccountFormData = z.infer<typeof deleteAccountSchema>;

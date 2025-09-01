@@ -8,8 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { LogOut, Mail, User, Calendar, CheckCircle, AlertCircle } from 'lucide-react';
+import { LogOut, Mail, User, Calendar, CheckCircle, AlertCircle, Settings, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function UserProfile() {
   const { user } = useAuth();
@@ -179,6 +180,53 @@ export default function UserProfile() {
                 </AlertDescription>
               </Alert>
             )}
+
+            {/* Change Password Option - Only for email/password users */}
+            {user.providerData[0]?.providerId !== 'google.com' && (
+              <div className="pt-2">
+                <Link href="/change-password">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full"
+                  >
+                    <Settings className="mr-2 h-4 w-4" />
+                    Change Password
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Danger Zone */}
+      <Card className="border-destructive">
+        <CardHeader>
+          <CardTitle className="text-lg text-destructive">Danger Zone</CardTitle>
+          <CardDescription>
+            Irreversible and destructive actions
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                Account deletion is permanent and cannot be undone. All your data will be lost.
+              </AlertDescription>
+            </Alert>
+
+            <Link href="/delete-account">
+              <Button
+                variant="destructive"
+                size="sm"
+                className="w-full"
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete Account
+              </Button>
+            </Link>
           </div>
         </CardContent>
       </Card>

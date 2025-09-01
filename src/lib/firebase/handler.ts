@@ -34,6 +34,10 @@ const ERROR_MESSAGES: Record<string, string> = {
   'auth/cancelled-popup-request': 'Another sign-in popup is already open.',
   'auth/network-request-failed': 'Network error. Please check your connection and try again.',
   'auth/too-many-requests': 'Too many failed attempts. Please try again later.',
+  'auth/invalid-credential': 'The current password is incorrect.',
+  'auth/credential-already-in-use': 'This credential is already associated with a different user account.',
+  'auth/invalid-verification-code': 'The verification code is invalid.',
+  'auth/invalid-verification-id': 'The verification ID is invalid.',
   
   // Firestore errors
   'firestore/permission-denied': 'You do not have permission to access this resource.',
@@ -131,9 +135,10 @@ export async function firebaseHandler<T>(
       // Log detailed error in development
       if (process.env.NODE_ENV === 'development') {
         console.error(`🔥 Firebase error in ${context || 'unknown operation'}:`, {
-          code: error.code,
-          message: error.message,
-          customMessage: userFriendlyMessage
+          code: error.code || 'unknown-code',
+          message: error.message || 'unknown-message',
+          customMessage: userFriendlyMessage,
+          fullError: error
         });
       }
       
@@ -142,6 +147,15 @@ export async function firebaseHandler<T>(
     
     // Handle other errors
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    
+    // Log non-Firebase errors in development
+    if (process.env.NODE_ENV === 'development') {
+      console.error(`🔥 Non-Firebase error in ${context || 'unknown operation'}:`, {
+        message: errorMessage,
+        error: error,
+        type: typeof error
+      });
+    }
     
     if (process.env.NODE_ENV === 'development') {
       console.error(`🔥 Unexpected error in ${context || 'unknown operation'}:`, error);
