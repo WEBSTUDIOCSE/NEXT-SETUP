@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 import { deleteAccountSchema, type DeleteAccountFormData } from '@/lib/validations/auth';
 import { APIBook } from '@/lib/firebase/services';
 import { useAuth } from '@/contexts/AuthContext';
@@ -19,7 +18,6 @@ import Link from 'next/link';
 
 export default function DeleteAccountForm() {
   const { user } = useAuth();
-  const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -43,7 +41,9 @@ export default function DeleteAccountForm() {
       
       if (result.success) {
         // Account deleted successfully, user will be automatically signed out
-        router.push('/login?message=Account deleted successfully');
+        // Use window.location to ensure clean navigation and prevent race conditions
+        window.location.href = '/login?message=Account deleted successfully';
+        return; // Prevent further execution
       } else {
         setError(result.error || 'Failed to delete account');
       }
@@ -64,7 +64,8 @@ export default function DeleteAccountForm() {
       const result = await APIBook.auth.deleteAccount();
       
       if (result.success) {
-        router.push('/login?message=Account deleted successfully');
+        window.location.href = '/login?message=Account deleted successfully';
+        return; // Prevent further execution
       } else {
         setError(result.error || 'Failed to delete account');
       }
@@ -116,7 +117,7 @@ export default function DeleteAccountForm() {
 
             <div className="space-y-3">
               <p className="text-sm text-muted-foreground">
-                If you're sure you want to delete your account, click the button below to proceed with the deletion process.
+                If you&apos;re sure you want to delete your account, click the button below to proceed with the deletion process.
               </p>
               
               <Button 

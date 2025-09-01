@@ -11,8 +11,9 @@ export default function DeleteAccountPage() {
   const router = useRouter();
 
   useEffect(() => {
+    // Only redirect if not loading and no user
     if (!loading && !user) {
-      router.push('/login?message=Please sign in to access account deletion');
+      router.replace('/login?message=Please sign in to access account deletion');
     }
   }, [user, loading, router]);
 
