@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { PayuService } from '@/lib/payment/payu-service';
+import { IS_PRODUCTION } from '@/lib/firebase/config/environments';
 
 interface PaymentInitiationRequest {
   userId: string;
@@ -79,8 +80,8 @@ export async function POST(request: NextRequest) {
     // Generate SHA512 hash
     const hash = crypto.createHash('sha512').update(hashString).digest('hex');
     
-    // Get PayU base URL based on environment
-    const payuBaseUrl = process.env.NODE_ENV === 'production' 
+    // Get PayU base URL based on IS_PRODUCTION flag
+    const payuBaseUrl = IS_PRODUCTION
       ? 'https://secure.payu.in' 
       : 'https://test.payu.in'; // Official PayU test environment URL
     
