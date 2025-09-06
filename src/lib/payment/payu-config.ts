@@ -1,0 +1,54 @@
+/**
+ * PayU Payment Gateway Configuration
+ * Secure configuration for PayU integration
+ */
+
+export interface PayuConfig {
+  merchantKey: string;
+  baseUrl: string;
+  successUrl: string;
+  failureUrl: string;
+  paymentMode: 'test' | 'production';
+}
+
+// Client-side configuration (only non-sensitive data)
+export const PAYU_CONFIG: PayuConfig = {
+  merchantKey: process.env.NEXT_PUBLIC_PAYU_MERCHANT_KEY || '',
+  baseUrl: process.env.NODE_ENV === 'production' 
+    ? 'https://secure.payu.in' 
+    : 'https://test.payu.in', // Official PayU test environment
+  successUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/payment/success`,
+  failureUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/payment/failure`,
+  paymentMode: process.env.NODE_ENV === 'production' ? 'production' : 'test',
+};
+
+// PayU API endpoints
+export const PAYU_ENDPOINTS = {
+  PAYMENT: '_payment',
+  VERIFY_PAYMENT: 'merchant/postservice?form=2',
+};
+
+// Available payment methods (customize as per your needs)
+export const PAYMENT_METHODS = [
+  { id: 'CC', name: 'Credit Card', icon: '💳' },
+  { id: 'DC', name: 'Debit Card', icon: '💳' },
+  { id: 'NB', name: 'Net Banking', icon: '🏦' },
+  { id: 'UPI', name: 'UPI', icon: '📱' },
+  { id: 'WALLET', name: 'Wallet', icon: '👛' },
+];
+
+// Payment status enum
+export enum PaymentStatus {
+  PENDING = 'pending',
+  SUCCESS = 'success',
+  FAILED = 'failed',
+  CANCELLED = 'cancelled',
+  REFUNDED = 'refunded'
+}
+
+// Currency options
+export const SUPPORTED_CURRENCIES = [
+  { code: 'INR', symbol: '₹', name: 'Indian Rupee' },
+];
+
+export const DEFAULT_CURRENCY = 'INR';
