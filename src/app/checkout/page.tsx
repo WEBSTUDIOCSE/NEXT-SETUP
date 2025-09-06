@@ -12,23 +12,25 @@ import Link from 'next/link';
 import { CommonSkeleton } from '@/components/common/CommonSkeleton';
 
 function CheckoutContent() {
-  const { user, loading: authLoading } = useAuth();
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  const [loading, setLoading] = useState(true);
   const [productInfo, setProductInfo] = useState<string>('');
   const [amount, setAmount] = useState<number>(0);
   const [allowCustomAmount, setAllowCustomAmount] = useState(true);
   
   useEffect(() => {
+    // Early return if still loading auth
+    if (authLoading) return;
+    
     // Redirect to login if not authenticated
-    if (!authLoading && !user) {
+    if (!isAuthenticated) {
       router.push('/login?message=Please sign in to make a payment');
       return;
     }
     
-    // Get product info and amount from URL params if provided
+    // Parse URL parameters
     const productParam = searchParams.get('product');
     const amountParam = searchParams.get('amount');
     const customAmountParam = searchParams.get('allowCustomAmount');
@@ -44,20 +46,10 @@ function CheckoutContent() {
         setAllowCustomAmount(customAmountParam !== 'false');
       }
     }
-    
-    setLoading(false);
-  }, [user, authLoading, router, searchParams]);
+  }, [isAuthenticated, authLoading, router, searchParams]);
   
-  const handlePaymentSuccess = (paymentId: string) => {
-    // This won't be called directly as PayU redirects to success/failure pages
-    console.log('Payment initiated:', paymentId);
-  };
-  
-  const handlePaymentError = (error: string) => {
-    console.error('Payment error:', error);
-  };
-  
-  if (loading || authLoading) {
+  // Show loading while checking authentication
+  if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <CommonSkeleton />
@@ -65,7 +57,8 @@ function CheckoutContent() {
     );
   }
   
-  if (!user) {
+  // Show login prompt if not authenticated
+  if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
@@ -86,6 +79,15 @@ function CheckoutContent() {
       </div>
     );
   }
+  
+  // Payment handlers (simplified)
+  const handlePaymentSuccess = (paymentId: string) => {
+    console.log('Payment initiated:', paymentId);
+  };
+  
+  const handlePaymentError = (error: string) => {
+    console.error('Payment error:', error);
+  };
   
   return (
     <div className="min-h-screen bg-background">
@@ -120,107 +122,58 @@ function CheckoutContent() {
             />
           </div>
           
-          {/* Security Information Sidebar */}
-          <div className="space-y-6">
+          {/* Security & Payment Info Sidebar */}
+          <div className="space-y-4">
             {/* Security Features */}
             <Card>
-              <CardHeader>
+              <CardHeader className="pb-3">
                 <CardTitle className="flex items-center text-lg">
                   <Shield className="mr-2 h-5 w-5 text-green-600" />
                   Secure Payment
                 </CardTitle>
-                <CardDescription>
-                  Your transaction is protected
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <Lock className="h-5 w-5 text-green-600 mt-0.5" />
-                  <div>
-                    <h4 className="font-medium">SSL Encryption</h4>
-                    <p className="text-sm text-muted-foreground">
-                      All data is encrypted with 256-bit SSL
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start space-x-3">
-                  <CreditCard className="h-5 w-5 text-green-600 mt-0.5" />
-                  <div>
-                    <h4 className="font-medium">PayU Gateway</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Powered by trusted PayU payment gateway
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start space-x-3">
-                  <Shield className="h-5 w-5 text-green-600 mt-0.5" />
-                  <div>
-                    <h4 className="font-medium">PCI Compliant</h4>
-                    <p className="text-sm text-muted-foreground">
-                      Meets highest security standards
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Accepted Payment Methods */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Accepted Payment Methods</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="flex items-center space-x-2 p-2 border rounded">
-                    <span>💳</span>
-                    <span className="text-sm">Credit Card</span>
-                  </div>
-                  <div className="flex items-center space-x-2 p-2 border rounded">
-                    <span>💳</span>
-                    <span className="text-sm">Debit Card</span>
-                  </div>
-                  <div className="flex items-center space-x-2 p-2 border rounded">
-                    <span>🏦</span>
-                    <span className="text-sm">Net Banking</span>
-                  </div>
-                  <div className="flex items-center space-x-2 p-2 border rounded">
-                    <span>📱</span>
-                    <span className="text-sm">UPI</span>
-                  </div>
-                  <div className="flex items-center space-x-2 p-2 border rounded">
-                    <span>👛</span>
-                    <span className="text-sm">Wallets</span>
-                  </div>
-                  <div className="flex items-center space-x-2 p-2 border rounded">
-                    <span>🔄</span>
-                    <span className="text-sm">EMI</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Support Information */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Need Help?</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <p className="text-sm text-muted-foreground">
-                  Having trouble with your payment? Our support team is here to help.
-                </p>
-                <div className="space-y-2">
-                  <p className="text-sm">
-                    <strong>Email:</strong> support@yourapp.com
-                  </p>
-                  <p className="text-sm">
-                    <strong>Phone:</strong> +91 1234567890
-                  </p>
-                  <p className="text-sm">
-                    <strong>Hours:</strong> 24/7 Support
-                  </p>
+                <div className="flex items-center space-x-2 text-sm">
+                  <Lock className="h-4 w-4 text-green-600" />
+                  <span>SSL Encrypted</span>
                 </div>
+                <div className="flex items-center space-x-2 text-sm">
+                  <CreditCard className="h-4 w-4 text-green-600" />
+                  <span>PayU Gateway</span>
+                </div>
+                <div className="flex items-center space-x-2 text-sm">
+                  <Shield className="h-4 w-4 text-green-600" />
+                  <span>PCI Compliant</span>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Payment Methods */}
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Payment Methods</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div className="text-center p-2 border rounded">💳 Cards</div>
+                  <div className="text-center p-2 border rounded">🏦 Banking</div>
+                  <div className="text-center p-2 border rounded">📱 UPI</div>
+                  <div className="text-center p-2 border rounded">� Wallets</div>
+                  <div className="text-center p-2 border rounded">� EMI</div>
+                  <div className="text-center p-2 border rounded">� More</div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Support */}
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg">Support</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm space-y-1">
+                <p>📧 support@yourapp.com</p>
+                <p>📞 +91 1234567890</p>
+                <p>🕒 24/7 Available</p>
               </CardContent>
             </Card>
           </div>
