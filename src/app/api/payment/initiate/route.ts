@@ -5,9 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { APIBook } from '@/lib/firebase/services';
 import { PayuService } from '@/lib/payment/payu-service';
-import { PaymentStatus, DEFAULT_CURRENCY } from '@/lib/payment/payu-config';
 
 interface PaymentInitiationRequest {
   userId: string;
@@ -48,35 +46,6 @@ export async function POST(request: NextRequest) {
     // Generate unique transaction ID
     const txnId = PayuService.generateTransactionId();
     
-    // Create payment record in Firestore
-    const paymentResult = await APIBook.payment.createPayment({
-      userId: body.userId,
-      txnId,
-      amount: body.amount,
-      currency: DEFAULT_CURRENCY,
-      status: PaymentStatus.PENDING,
-      productInfo: body.productInfo,
-      paymentMethod: body.paymentMethod,
-      metadata: {
-        firstName: body.firstName,
-        lastName: body.lastName,
-        email: body.email,
-        phone: body.phone,
-        address: body.address,
-        city: body.city,
-        state: body.state,
-        country: body.country,
-        zipCode: body.zipCode,
-      }
-    });
-    
-    if (!paymentResult.success || !paymentResult.data) {
-      return NextResponse.json({ 
-        success: false, 
-        error: paymentResult.error || 'Failed to create payment record' 
-      }, { status: 500 });
-    }
-    
     // Get PayU configuration from environment variables
     const merchantKey = process.env.NEXT_PUBLIC_PAYU_MERCHANT_KEY;
     const merchantSalt = process.env.PAYU_MERCHANT_SALT;
@@ -95,7 +64,6 @@ export async function POST(request: NextRequest) {
     
     // Generate hash string as per PayU documentation
     // Standard format: key|txnid|amount|productinfo|firstname|email|||||||||||salt
-    // With UDF: key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5||||||salt
     const hashString = [
       merchantKey,
       txnId,
@@ -103,8 +71,7 @@ export async function POST(request: NextRequest) {
       body.productInfo,
       body.firstName,
       body.email,
-      paymentResult.data.id, // Store Firestore payment ID as udf1
-      '', '', '', '', // udf2-udf5 empty
+      '', '', '', '', '', // udf1-udf5 empty for now
       '', '', '', '', '', // 5 empty fields as per PayU spec
       merchantSalt
     ].join('|');
@@ -132,7 +99,7 @@ export async function POST(request: NextRequest) {
         surl: successUrl,
         furl: failureUrl,
         hash: hash,
-        udf1: paymentResult.data.id,
+        udf1: '', // No Firebase ID for now
         address1: body.address || '',
         city: body.city || '',
         state: body.state || '',

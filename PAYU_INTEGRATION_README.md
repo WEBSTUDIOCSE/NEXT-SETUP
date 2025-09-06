@@ -127,7 +127,6 @@ src/
 │   ├── payment/
 │   │   ├── success/page.tsx         # Payment success page
 │   │   └── failure/page.tsx         # Payment failure page
-│   ├── payment-test/page.tsx        # Test payment page
 │   └── payu-diagnostics/page.tsx    # Diagnostics page
 ├── components/
 │   ├── payment/PaymentForm.tsx      # Main payment form
@@ -155,17 +154,12 @@ Visit `/payu-diagnostics` to run comprehensive tests:
 
 ### Manual Testing
 
-1. **Test Payment Flow**
-   - Visit `/payment-test`
-   - Fill in test details
-   - Use test card numbers provided above
-
-2. **Checkout Integration**
+1. **Checkout Integration**
    - Visit `/checkout`
    - Complete the payment process
    - Verify success/failure pages
 
-3. **API Testing**
+2. **API Testing**
    ```bash
    # Test payment initiation
    curl -X POST http://localhost:3000/api/payment/initiate \

@@ -1,12 +1,10 @@
 /**
  * API Route: Payment Verification
- * Verifies PayU payment response and updates payment status
+ * Verifies PayU payment response
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { APIBook } from '@/lib/firebase/services';
-import { PaymentStatus } from '@/lib/payment/payu-config';
 
 /**
  * Generate hash for PayU response verification
@@ -91,7 +89,7 @@ async function verifyWithPayU(txnId: string): Promise<{ verified: boolean; data:
 export async function POST(request: NextRequest) {
   try {
     const responseData = await request.json();
-    const { txnid, status, hash } = responseData;
+    const { txnid, status, hash, amount } = responseData;
     
     if (!txnid) {
       return NextResponse.json({ 
@@ -112,66 +110,49 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    // Get payment record from Firestore
-    const paymentResult = await APIBook.payment.getPaymentByTxnId(txnid);
-    
-    if (!paymentResult.success || !paymentResult.data) {
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Payment record not found' 
-      }, { status: 404 });
-    }
-    
-    // Determine payment status
-    let paymentStatus: PaymentStatus;
+    // Determine payment status based on PayU response
+    let paymentStatus: string;
     switch (status?.toLowerCase()) {
       case 'success':
-        paymentStatus = PaymentStatus.SUCCESS;
+        paymentStatus = 'success';
         break;
       case 'failure':
       case 'failed':
-        paymentStatus = PaymentStatus.FAILED;
+        paymentStatus = 'failed';
         break;
       case 'cancel':
       case 'cancelled':
-        paymentStatus = PaymentStatus.CANCELLED;
+        paymentStatus = 'cancelled';
         break;
       default:
-        paymentStatus = PaymentStatus.FAILED;
+        paymentStatus = 'failed';
     }
     
-    // Update payment status in Firestore
-    const updateResult = await APIBook.payment.updatePaymentStatus(
-      paymentResult.data.id!, 
-      paymentStatus, 
-      responseData
-    );
-    
-    if (!updateResult.success) {
-      console.error('Failed to update payment status:', updateResult.error);
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Failed to update payment status' 
-      }, { status: 500 });
-    }
+    // Log payment verification for debugging
+    console.log('Payment verification completed:', {
+      txnId: txnid,
+      status: paymentStatus,
+      amount,
+      payuResponse: responseData
+    });
     
     // For successful payments, optionally verify with PayU server
-    if (paymentStatus === PaymentStatus.SUCCESS) {
+    if (paymentStatus === 'success') {
       const verification = await verifyWithPayU(txnid);
       if (!verification.verified) {
         console.warn('PayU server verification failed for transaction:', txnid);
-        // Optionally update status to failed if server verification fails
-        // await APIBook.payment.updatePaymentStatus(paymentResult.data.id!, PaymentStatus.FAILED, verification.data);
+        paymentStatus = 'failed';
       }
     }
     
     return NextResponse.json({ 
       success: true, 
-      message: 'Payment status updated successfully',
+      message: 'Payment verification completed',
       data: {
         txnId: txnid,
         status: paymentStatus,
-        paymentId: paymentResult.data.id
+        amount: amount,
+        verified: true
       }
     });
     

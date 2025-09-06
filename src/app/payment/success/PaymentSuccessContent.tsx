@@ -166,7 +166,7 @@ export default function PaymentSuccessContent() {
               No Payment Data
             </CardTitle>
             <CardDescription className="text-gray-600">
-              No payment information was found. This might be because the payment wasn't completed or the session expired.
+              No payment information was found. This might be because the payment wasn&apos;t completed or the session expired.
             </CardDescription>
           </CardHeader>
           <CardFooter className="flex justify-center space-x-4">
