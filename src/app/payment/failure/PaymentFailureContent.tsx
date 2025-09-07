@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, Home, RefreshCw, Copy, Check } from 'lucide-react';
 import Link from 'next/link';
-import { CommonSkeleton } from '@/components/common/CommonSkeleton';
 
 interface PaymentFailureData {
   txnId: string;
@@ -124,7 +123,10 @@ export default function PaymentFailureContent() {
   if (loading || authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <CommonSkeleton />
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading payment details...</p>
+        </div>
       </div>
     );
   }

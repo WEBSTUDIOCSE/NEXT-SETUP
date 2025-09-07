@@ -1,12 +1,11 @@
 'use client';
 
 import { Suspense } from 'react';
-import { CommonSkeleton } from '@/components/common/CommonSkeleton';
 import PaymentSuccessContent from './PaymentSuccessContent';
 
 export default function PaymentSuccessPage() {
   return (
-    <Suspense fallback={<CommonSkeleton />}>
+    <Suspense fallback={<div>Loading...</div>}>
       <PaymentSuccessContent />
     </Suspense>
   );

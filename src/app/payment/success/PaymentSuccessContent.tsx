@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { CheckCircle, AlertCircle, Home, ArrowRight, Copy, Check } from 'lucide-react';
 import Link from 'next/link';
-import { CommonSkeleton } from '@/components/common/CommonSkeleton';
 
 interface PaymentResponseData {
   txnId: string;
@@ -117,7 +116,14 @@ export default function PaymentSuccessContent() {
   };
   
   if (authLoading || loading) {
-    return <CommonSkeleton />;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading payment details...</p>
+        </div>
+      </div>
+    );
   }
   
   if (error) {
