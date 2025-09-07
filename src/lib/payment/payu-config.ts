@@ -3,6 +3,8 @@
  * Secure configuration for PayU integration
  */
 
+import { IS_PRODUCTION } from '@/lib/firebase/config/environments';
+
 export interface PayuConfig {
   merchantKey: string;
   baseUrl: string;
@@ -11,15 +13,32 @@ export interface PayuConfig {
   paymentMode: 'test' | 'production';
 }
 
+// Debug environment variables
+console.log('Environment debug:', {
+  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  typeof_APP_URL: typeof process.env.NEXT_PUBLIC_APP_URL,
+  IS_PRODUCTION
+});
+
+// Helper function to safely get app URL
+function getAppUrl(): string {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+  if (!appUrl || appUrl === 'null' || appUrl === 'undefined') {
+    console.warn('NEXT_PUBLIC_APP_URL is not set, using localhost');
+    return 'http://localhost:3000';
+  }
+  return appUrl;
+}
+
 // Client-side configuration (only non-sensitive data)
 export const PAYU_CONFIG: PayuConfig = {
   merchantKey: process.env.NEXT_PUBLIC_PAYU_MERCHANT_KEY || '',
-  baseUrl: process.env.NODE_ENV === 'production' 
+  baseUrl: IS_PRODUCTION
     ? 'https://secure.payu.in' 
     : 'https://test.payu.in', // Official PayU test environment
-  successUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/payment/success`,
-  failureUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/payment/failure`,
-  paymentMode: process.env.NODE_ENV === 'production' ? 'production' : 'test',
+  successUrl: `${getAppUrl()}/api/payment/success`,
+  failureUrl: `${getAppUrl()}/api/payment/failure`,
+  paymentMode: IS_PRODUCTION ? 'production' : 'test',
 };
 
 // PayU API endpoints

@@ -71,7 +71,16 @@ export class PayuService {
    */
   static getPaymentUrl(): string {
     const { baseUrl } = PAYU_CONFIG;
-    return `${baseUrl}/${PAYU_ENDPOINTS.PAYMENT}`;
+    
+    if (!baseUrl || baseUrl === 'null' || baseUrl === 'undefined') {
+      console.error('PayU baseUrl is invalid:', baseUrl);
+      throw new Error('PayU configuration error: Invalid base URL');
+    }
+    
+    const paymentUrl = `${baseUrl}/${PAYU_ENDPOINTS.PAYMENT}`;
+    console.log('PayU payment URL:', paymentUrl);
+    
+    return paymentUrl;
   }
   
   /**
@@ -80,10 +89,24 @@ export class PayuService {
    */
   static submitPaymentForm(formData: PaymentFormData): void {
     try {
+      console.log('Submitting payment form with data:', {
+        txnid: formData.txnid,
+        amount: formData.amount,
+        key: formData.key
+      });
+      
+      // Validate required fields
+      if (!formData.txnid || !formData.amount || !formData.hash) {
+        throw new Error('Missing required payment data');
+      }
+      
       // Create form element
       const form = document.createElement('form');
       form.method = 'POST';
-      form.action = this.getPaymentUrl();
+      
+      // Get PayU URL and validate
+      const paymentUrl = this.getPaymentUrl();
+      form.action = paymentUrl;
       form.style.display = 'none';
 
       // Add form fields
@@ -99,11 +122,17 @@ export class PayuService {
 
       // Add form to DOM and submit
       document.body.appendChild(form);
+      
+      console.log('Form action URL:', form.action);
+      console.log('Form fields count:', form.children.length);
+      
       form.submit();
       
       // Clean up - remove form after submission
       setTimeout(() => {
-        document.body.removeChild(form);
+        if (document.body.contains(form)) {
+          document.body.removeChild(form);
+        }
       }, 1000);
       
     } catch (error) {

@@ -394,9 +394,6 @@ export default function PaymentForm({
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex justify-center text-sm text-muted-foreground">
-        🔒 Secured by PayU Payment Gateway
-      </CardFooter>
     </Card>
   );
 }

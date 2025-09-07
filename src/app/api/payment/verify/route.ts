@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { IS_PRODUCTION } from '@/lib/firebase/config/environments';
 
 /**
  * Generate hash for PayU response verification
@@ -46,13 +47,19 @@ async function verifyWithPayU(txnId: string): Promise<{ verified: boolean; data:
     const merchantSalt = process.env.PAYU_MERCHANT_SALT;
     
     if (!merchantKey || !merchantSalt) {
-      throw new Error('PayU configuration not found');
+      console.error('PayU credentials not configured');
+      return { verified: false, data: null };
+    }
+    
+    if (!txnId) {
+      console.error('Transaction ID is required for verification');
+      return { verified: false, data: null };
     }
     
     const command = 'verify_payment';
-    const baseUrl = process.env.NODE_ENV === 'production' 
+    const baseUrl = IS_PRODUCTION
       ? 'https://secure.payu.in' 
-      : 'https://sandboxsecure.payu.in';
+      : 'https://test.payu.in'; // Use test environment for consistency
     
     // Create hash for verification
     const hashString = `${merchantKey}|${command}|${txnId}|${merchantSalt}`;
@@ -90,6 +97,9 @@ export async function POST(request: NextRequest) {
   try {
     const responseData = await request.json();
     const { txnid, status, hash, amount } = responseData;
+    
+    // Log the incoming data for debugging
+    console.log('Payment verification request:', { txnid, status, amount });
     
     if (!txnid) {
       return NextResponse.json({ 
@@ -137,7 +147,7 @@ export async function POST(request: NextRequest) {
     });
     
     // For successful payments, optionally verify with PayU server
-    if (paymentStatus === 'success') {
+    if (paymentStatus === 'success' && txnid) {
       const verification = await verifyWithPayU(txnid);
       if (!verification.verified) {
         console.warn('PayU server verification failed for transaction:', txnid);

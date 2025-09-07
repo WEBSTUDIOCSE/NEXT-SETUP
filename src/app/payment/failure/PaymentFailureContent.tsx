@@ -40,8 +40,16 @@ export default function PaymentFailureContent() {
       try {
         if (authLoading) return;
         
+        // Log URL search params for debugging
+        console.log('Payment failure - URL search params:', {
+          params: Object.fromEntries(searchParams.entries()),
+          toString: searchParams.toString()
+        });
+        
         // Parse PayU response from URL parameters
         const response = PayuService.parsePaymentResponse(searchParams);
+        
+        console.log('Payment failure - Parsed response:', response);
         
         if (!response.txnid) {
           setError('Invalid payment response received');

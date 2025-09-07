@@ -121,75 +121,7 @@ function CheckoutContent() {
               className="w-full"
             />
           </div>
-          
-          {/* Security & Payment Info Sidebar */}
-          <div className="space-y-4">
-            {/* Security Features */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center text-lg">
-                  <Shield className="mr-2 h-5 w-5 text-green-600" />
-                  Secure Payment
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center space-x-2 text-sm">
-                  <Lock className="h-4 w-4 text-green-600" />
-                  <span>SSL Encrypted</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <CreditCard className="h-4 w-4 text-green-600" />
-                  <span>PayU Gateway</span>
-                </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Shield className="h-4 w-4 text-green-600" />
-                  <span>PCI Compliant</span>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Payment Methods */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Payment Methods</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-2 text-xs">
-                  <div className="text-center p-2 border rounded">💳 Cards</div>
-                  <div className="text-center p-2 border rounded">🏦 Banking</div>
-                  <div className="text-center p-2 border rounded">📱 UPI</div>
-                  <div className="text-center p-2 border rounded">� Wallets</div>
-                  <div className="text-center p-2 border rounded">� EMI</div>
-                  <div className="text-center p-2 border rounded">� More</div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            {/* Support */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Support</CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm space-y-1">
-                <p>📧 support@yourapp.com</p>
-                <p>📞 +91 1234567890</p>
-                <p>🕒 24/7 Available</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-        
-        {/* Terms and Privacy */}
-        <div className="mt-8 text-center text-sm text-muted-foreground">
-          By proceeding with the payment, you agree to our{' '}
-          <Link href="/terms" className="underline hover:text-foreground">
-            Terms of Service
-          </Link>{' '}
-          and{' '}
-          <Link href="/privacy" className="underline hover:text-foreground">
-            Privacy Policy
-          </Link>
-          .
+
         </div>
       </div>
     </div>

@@ -58,10 +58,22 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
     
-    // Prepare URLs
-    const baseUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}`;
-    const successUrl = `${baseUrl}/payment/success`;
-    const failureUrl = `${baseUrl}/payment/failure`;
+    // Prepare URLs with validation
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+    const baseUrl = (!appUrl || appUrl === 'null' || appUrl === 'undefined') 
+      ? 'http://localhost:3000' 
+      : appUrl;
+    
+    console.log('Payment initiate - URL construction:', {
+      NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+      baseUrl,
+      typeof_APP_URL: typeof process.env.NEXT_PUBLIC_APP_URL
+    });
+    
+    const successUrl = `${baseUrl}/api/payment/success`;
+    const failureUrl = `${baseUrl}/api/payment/failure`;
+    
+    console.log('Generated URLs:', { successUrl, failureUrl });
     
     // Generate hash string as per PayU documentation
     // Standard format: key|txnid|amount|productinfo|firstname|email|||||||||||salt
