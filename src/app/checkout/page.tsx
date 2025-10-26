@@ -9,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ArrowLeft, Shield, Lock, CreditCard } from 'lucide-react';
 import Link from 'next/link';
-import { CommonSkeleton } from '@/components/common/CommonSkeleton';
 
 function CheckoutContent() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -52,7 +51,10 @@ function CheckoutContent() {
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <CommonSkeleton />
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
+        </div>
       </div>
     );
   }
@@ -130,7 +132,7 @@ function CheckoutContent() {
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={<CommonSkeleton />}>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
       <CheckoutContent />
     </Suspense>
   );

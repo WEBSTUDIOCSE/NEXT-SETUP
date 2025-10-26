@@ -4,7 +4,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import DeleteAccountForm from '@/components/auth/DeleteAccountForm';
-import { ProfileSkeleton } from '@/components/common/CommonSkeleton';
 
 export default function DeleteAccountPage() {
   const { user, loading } = useAuth();
@@ -20,7 +19,10 @@ export default function DeleteAccountPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <ProfileSkeleton />
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
+        </div>
       </div>
     );
   }

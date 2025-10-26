@@ -4,7 +4,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import ForgotPasswordForm from '@/components/auth/ForgotPasswordForm';
-import { ProfileSkeleton } from '@/components/common/CommonSkeleton';
 
 export default function ForgotPasswordPage() {
   const { isAuthenticated, loading } = useAuth();
@@ -19,7 +18,10 @@ export default function ForgotPasswordPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <ProfileSkeleton className="text-center" />
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
+        </div>
       </div>
     );
   }
