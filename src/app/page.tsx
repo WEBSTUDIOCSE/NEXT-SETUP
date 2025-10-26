@@ -1,52 +1,67 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-background/[.05] dark:bg-background/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Authentication setup at{" "}
-            <code className="bg-background/[.05] dark:bg-background/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              /login
-            </code>
-            {" "}and profile at{" "}
-            <code className="bg-background/[.05] dark:bg-background/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              /profile
-            </code>
-            .
-          </li>
-        </ol>
+    <div className="min-h-screen p-8 max-w-4xl mx-auto">
+      <header className="text-center mb-12">
+        <h1 className="text-4xl font-bold mb-2">NextJS Setup</h1>
+        <p className="text-gray-600">Modern web application with authentication and payments</p>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+      <main className="space-y-8">
+        <section>
+          <h2 className="text-2xl font-semibold mb-4">Features</h2>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="border rounded-lg p-4">
+              <h3 className="font-medium mb-2">🔐 Authentication</h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Firebase Auth with email/password and Google OAuth
+              </p>
+              <div className="space-x-2">
+                <Link href="/login">
+                  <Button size="sm">Login</Button>
+                </Link>
+                <Link href="/signup">
+                  <Button size="sm" variant="outline">Sign Up</Button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="border rounded-lg p-4">
+              <h3 className="font-medium mb-2">💳 Payments</h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Secure PayU gateway integration with multiple payment methods
+              </p>
+              <Link href="/checkout">
+                <Button size="sm">Checkout</Button>
+              </Link>
+            </div>
+
+            <div className="border rounded-lg p-4">
+              <h3 className="font-medium mb-2">👤 Profile Management</h3>
+              <p className="text-sm text-gray-600 mb-3">
+                User profile, password change, and account management
+              </p>
+              <Link href="/profile">
+                <Button size="sm" variant="outline">View Profile</Button>
+              </Link>
+            </div>
+
+            <div className="border rounded-lg p-4">
+              <h3 className="font-medium mb-2">⚡ Modern Stack</h3>
+              <p className="text-sm text-gray-600">
+                Next.js 15, React 19, TypeScript, Tailwind CSS, shadcn/ui
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="text-center">
           <Link href="/login">
-            <Button size="lg" className="w-full sm:w-auto">
-              Get Started
-            </Button>
+            <Button>Get Started</Button>
           </Link>
-          <Link href="/profile">
-            <Button variant="outline" size="lg" className="w-full sm:w-auto">
-              View Profile
-            </Button>
-          </Link>
-        </div>
+        </section>
       </main>
     </div>
   );
