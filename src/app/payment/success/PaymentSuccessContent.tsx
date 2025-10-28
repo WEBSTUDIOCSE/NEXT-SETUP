@@ -119,7 +119,7 @@ export default function PaymentSuccessContent() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
           <p className="mt-4 text-muted-foreground">Loading payment details...</p>
         </div>
       </div>
@@ -129,15 +129,15 @@ export default function PaymentSuccessContent() {
   if (error) {
     return (
       <div className="container mx-auto px-4 py-16 max-w-2xl">
-        <Card className="border-red-200 shadow-lg">
+        <Card className="border-destructive shadow-lg">
           <CardHeader className="text-center">
-            <div className="mx-auto w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
-              <AlertCircle className="w-6 h-6 text-red-600" />
+            <div className="mx-auto w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mb-4">
+              <AlertCircle className="w-6 h-6 text-destructive" />
             </div>
-            <CardTitle className="text-2xl font-bold text-red-600">
+            <CardTitle className="text-2xl font-bold text-destructive">
               Payment Processing Error
             </CardTitle>
-            <CardDescription className="text-gray-600">
+            <CardDescription>
               {error}
             </CardDescription>
           </CardHeader>
@@ -163,15 +163,15 @@ export default function PaymentSuccessContent() {
   if (!paymentData) {
     return (
       <div className="container mx-auto px-4 py-16 max-w-2xl">
-        <Card className="border-yellow-200 shadow-lg">
+        <Card className="border-muted shadow-lg">
           <CardHeader className="text-center">
-            <div className="mx-auto w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-              <AlertCircle className="w-6 h-6 text-yellow-600" />
+            <div className="mx-auto w-12 h-12 bg-muted rounded-full flex items-center justify-center mb-4">
+              <AlertCircle className="w-6 h-6 text-muted-foreground" />
             </div>
-            <CardTitle className="text-2xl font-bold text-yellow-600">
+            <CardTitle className="text-2xl font-bold">
               No Payment Data
             </CardTitle>
-            <CardDescription className="text-gray-600">
+            <CardDescription>
               No payment information was found. This might be because the payment wasn&apos;t completed or the session expired.
             </CardDescription>
           </CardHeader>
@@ -200,24 +200,24 @@ export default function PaymentSuccessContent() {
   return (
     <div className="container mx-auto px-4 py-16 max-w-2xl">
       <Card className={`shadow-lg ${
-        isSuccess ? 'border-green-200' : isFailure ? 'border-red-200' : 'border-yellow-200'
+        isSuccess ? 'border-primary' : isFailure ? 'border-destructive' : 'border-muted'
       }`}>
         <CardHeader className="text-center">
           <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-4 ${
-            isSuccess ? 'bg-green-100' : isFailure ? 'bg-red-100' : 'bg-yellow-100'
+            isSuccess ? 'bg-primary/10' : isFailure ? 'bg-destructive/10' : 'bg-muted'
           }`}>
             {isSuccess ? (
-              <CheckCircle className="w-8 h-8 text-green-600" />
+              <CheckCircle className="w-8 h-8 text-primary" />
             ) : (
-              <AlertCircle className={`w-8 h-8 ${isFailure ? 'text-red-600' : 'text-yellow-600'}`} />
+              <AlertCircle className={`w-8 h-8 ${isFailure ? 'text-destructive' : 'text-muted-foreground'}`} />
             )}
           </div>
           <CardTitle className={`text-3xl font-bold ${
-            isSuccess ? 'text-green-600' : isFailure ? 'text-red-600' : 'text-yellow-600'
+            isSuccess ? 'text-primary' : isFailure ? 'text-destructive' : 'text-foreground'
           }`}>
             {isSuccess ? 'Payment Successful!' : isFailure ? 'Payment Failed' : 'Payment Pending'}
           </CardTitle>
-          <CardDescription className="text-gray-600 text-lg">
+          <CardDescription className="text-lg">
             {isSuccess 
               ? 'Your payment has been processed successfully.'
               : isFailure 
@@ -229,31 +229,31 @@ export default function PaymentSuccessContent() {
         
         <CardContent className="space-y-4">
           {isSuccess && (
-            <Alert className="border-green-200 bg-green-50">
-              <CheckCircle className="w-4 h-4 text-green-600" />
-              <AlertDescription className="text-green-800">
+            <Alert className="border-primary bg-primary/10">
+              <CheckCircle className="w-4 h-4 text-primary" />
+              <AlertDescription>
                 Thank you for your payment! You will receive a confirmation email shortly.
               </AlertDescription>
             </Alert>
           )}
           
           {isFailure && paymentData.errorMessage && (
-            <Alert className="border-red-200 bg-red-50">
-              <AlertCircle className="w-4 h-4 text-red-600" />
-              <AlertDescription className="text-red-800">
+            <Alert variant="destructive">
+              <AlertCircle className="w-4 h-4" />
+              <AlertDescription>
                 <strong>Error:</strong> {paymentData.errorMessage}
               </AlertDescription>
             </Alert>
           )}
           
-          <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-            <h3 className="font-semibold text-gray-900 text-lg">Payment Details</h3>
+          <div className="bg-muted rounded-lg p-4 space-y-3">
+            <h3 className="font-semibold text-foreground text-lg">Payment Details</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="font-medium text-gray-700">Transaction ID:</span>
+                <span className="font-medium text-muted-foreground">Transaction ID:</span>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="font-mono text-gray-900 bg-white px-2 py-1 rounded border text-xs">
+                  <span className="font-mono text-foreground bg-background px-2 py-1 rounded border text-xs">
                     {paymentData.txnId}
                   </span>
                   <Button
@@ -263,7 +263,7 @@ export default function PaymentSuccessContent() {
                     onClick={() => copyToClipboard(paymentData.txnId)}
                   >
                     {copied ? (
-                      <Check className="w-3 h-3 text-green-600" />
+                      <Check className="w-3 h-3 text-primary" />
                     ) : (
                       <Copy className="w-3 h-3" />
                     )}
@@ -272,14 +272,14 @@ export default function PaymentSuccessContent() {
               </div>
               
               <div>
-                <span className="font-medium text-gray-700">Amount:</span>
-                <p className="text-gray-900 font-semibold">₹{paymentData.amount}</p>
+                <span className="font-medium text-muted-foreground">Amount:</span>
+                <p className="text-foreground font-semibold">₹{paymentData.amount}</p>
               </div>
               
               <div>
-                <span className="font-medium text-gray-700">Status:</span>
+                <span className="font-medium text-muted-foreground">Status:</span>
                 <p className={`font-semibold capitalize ${
-                  isSuccess ? 'text-green-600' : isFailure ? 'text-red-600' : 'text-yellow-600'
+                  isSuccess ? 'text-primary' : isFailure ? 'text-destructive' : 'text-muted-foreground'
                 }`}>
                   {paymentData.status}
                 </p>
@@ -287,22 +287,22 @@ export default function PaymentSuccessContent() {
               
               {paymentData.payuMoneyId && (
                 <div>
-                  <span className="font-medium text-gray-700">PayU ID:</span>
-                  <p className="text-gray-900 font-mono text-xs">{paymentData.payuMoneyId}</p>
+                  <span className="font-medium text-muted-foreground">PayU ID:</span>
+                  <p className="text-foreground font-mono text-xs">{paymentData.payuMoneyId}</p>
                 </div>
               )}
               
               {paymentData.productInfo && (
                 <div>
-                  <span className="font-medium text-gray-700">Product:</span>
-                  <p className="text-gray-900">{paymentData.productInfo}</p>
+                  <span className="font-medium text-muted-foreground">Product:</span>
+                  <p className="text-foreground">{paymentData.productInfo}</p>
                 </div>
               )}
               
               <div>
-                <span className="font-medium text-gray-700">Customer:</span>
-                <p className="text-gray-900">{paymentData.firstName}</p>
-                <p className="text-gray-600 text-xs">{paymentData.email}</p>
+                <span className="font-medium text-muted-foreground">Customer:</span>
+                <p className="text-foreground">{paymentData.firstName}</p>
+                <p className="text-muted-foreground text-xs">{paymentData.email}</p>
               </div>
             </div>
           </div>
