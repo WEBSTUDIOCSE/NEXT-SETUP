@@ -61,14 +61,14 @@ export default function ForgotPasswordForm({
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CheckCircle className="h-12 w-12 mx-auto mb-2" />
-          <CardTitle className="text-xl">Reset Email Sent</CardTitle>
-          <CardDescription>
+          <CardTitle className="title">Reset Email Sent</CardTitle>
+          <CardDescription className="muted">
             We&apos;ve sent a password reset link to your email address.
             Please check your inbox and follow the instructions.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="text-sm text-muted-foreground text-center">
+          <div className="muted text-center">
             Didn&apos;t receive the email? Check your spam folder or try again.
           </div>
           
@@ -99,8 +99,8 @@ export default function ForgotPasswordForm({
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
         <Mail className="h-8 w-8 text-primary mx-auto mb-2" />
-        <CardTitle className="text-xl">Reset Password</CardTitle>
-        <CardDescription>
+        <CardTitle className="title">Reset Password</CardTitle>
+        <CardDescription className="muted">
           Enter your email address and we&apos;ll send you a link to reset your password.
         </CardDescription>
       </CardHeader>

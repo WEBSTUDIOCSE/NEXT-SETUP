@@ -29,7 +29,7 @@ export default function ProfilePage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading...</p>
+          <p className="mt-4 muted">Loading...</p>
         </div>
       </div>
     );
@@ -46,8 +46,8 @@ export default function ProfilePage() {
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Profile</h1>
-              <p className="text-muted-foreground">
+              <h1 className="heading">Profile</h1>
+              <p className="muted">
                 Manage your account settings and preferences
               </p>
             </div>
@@ -90,18 +90,18 @@ export default function ProfilePage() {
               <CardHeader>
                 <CardTitle>Account Info</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2 text-sm">
+              <CardContent className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Member since:</span>
-                  <span>{user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : 'N/A'}</span>
+                  <span className="muted">Member since:</span>
+                  <span className="body">{user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : 'N/A'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Last sign in:</span>
-                  <span>{user.metadata.lastSignInTime ? new Date(user.metadata.lastSignInTime).toLocaleDateString() : 'N/A'}</span>
+                  <span className="muted">Last sign in:</span>
+                  <span className="body">{user.metadata.lastSignInTime ? new Date(user.metadata.lastSignInTime).toLocaleDateString() : 'N/A'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-muted-foreground">Email verified:</span>
-                  <span className={user.emailVerified ? 'text-primary' : 'text-muted-foreground'}>
+                  <span className="muted">Email verified:</span>
+                  <span className={user.emailVerified ? 'success' : 'muted'}>
                     {user.emailVerified ? 'Yes' : 'No'}
                   </span>
                 </div>

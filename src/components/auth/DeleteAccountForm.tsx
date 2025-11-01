@@ -93,9 +93,9 @@ export default function DeleteAccountForm() {
           <CardHeader>
             <div className="flex items-center space-x-2">
               <AlertTriangle className="h-5 w-5 text-destructive" />
-              <CardTitle className="text-destructive">Delete Account</CardTitle>
+              <CardTitle className="title text-destructive">Delete Account</CardTitle>
             </div>
-            <CardDescription>
+            <CardDescription className="muted">
               This action cannot be undone. This will permanently delete your account and remove all associated data.
             </CardDescription>
           </CardHeader>
@@ -116,7 +116,7 @@ export default function DeleteAccountForm() {
             <Separator />
 
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">
+              <p className="muted">
                 If you&apos;re sure you want to delete your account, click the button below to proceed with the deletion process.
               </p>
               
@@ -152,9 +152,9 @@ export default function DeleteAccountForm() {
         <CardHeader>
           <div className="flex items-center space-x-2">
             <Trash2 className="h-5 w-5 text-destructive" />
-            <CardTitle className="text-destructive">Confirm Account Deletion</CardTitle>
+            <CardTitle className="title text-destructive">Confirm Account Deletion</CardTitle>
           </div>
-          <CardDescription>
+          <CardDescription className="muted">
             {isGoogleUser 
               ? 'You will need to re-authenticate with Google to confirm account deletion.'
               : 'Please enter your password and confirmation text to delete your account.'

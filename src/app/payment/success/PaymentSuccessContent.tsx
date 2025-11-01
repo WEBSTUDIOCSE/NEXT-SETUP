@@ -117,10 +117,10 @@ export default function PaymentSuccessContent() {
   
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading payment details...</p>
+          <p className="mt-4 muted">Loading payment details...</p>
         </div>
       </div>
     );
@@ -212,12 +212,12 @@ export default function PaymentSuccessContent() {
               <AlertCircle className={`w-8 h-8 ${isFailure ? 'text-destructive' : 'text-muted-foreground'}`} />
             )}
           </div>
-          <CardTitle className={`text-3xl font-bold ${
+          <CardTitle className={`heading ${
             isSuccess ? 'text-primary' : isFailure ? 'text-destructive' : 'text-foreground'
           }`}>
             {isSuccess ? 'Payment Successful!' : isFailure ? 'Payment Failed' : 'Payment Pending'}
           </CardTitle>
-          <CardDescription className="text-lg">
+          <CardDescription className="body">
             {isSuccess 
               ? 'Your payment has been processed successfully.'
               : isFailure 
@@ -247,13 +247,13 @@ export default function PaymentSuccessContent() {
           )}
           
           <div className="bg-muted rounded-lg p-4 space-y-3">
-            <h3 className="font-semibold text-foreground text-lg">Payment Details</h3>
+            <h3 className="title">Payment Details</h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <span className="font-medium text-muted-foreground">Transaction ID:</span>
+                <span className="muted">Transaction ID:</span>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="font-mono text-foreground bg-background px-2 py-1 rounded border text-xs">
+                  <span className="code">
                     {paymentData.txnId}
                   </span>
                   <Button
@@ -272,13 +272,13 @@ export default function PaymentSuccessContent() {
               </div>
               
               <div>
-                <span className="font-medium text-muted-foreground">Amount:</span>
-                <p className="text-foreground font-semibold">₹{paymentData.amount}</p>
+                <span className="muted">Amount:</span>
+                <p className="body font-semibold">₹{paymentData.amount}</p>
               </div>
               
               <div>
-                <span className="font-medium text-muted-foreground">Status:</span>
-                <p className={`font-semibold capitalize ${
+                <span className="muted">Status:</span>
+                <p className={`body font-semibold capitalize ${
                   isSuccess ? 'text-primary' : isFailure ? 'text-destructive' : 'text-muted-foreground'
                 }`}>
                   {paymentData.status}
@@ -287,22 +287,22 @@ export default function PaymentSuccessContent() {
               
               {paymentData.payuMoneyId && (
                 <div>
-                  <span className="font-medium text-muted-foreground">PayU ID:</span>
-                  <p className="text-foreground font-mono text-xs">{paymentData.payuMoneyId}</p>
+                  <span className="muted">PayU ID:</span>
+                  <p className="code">{paymentData.payuMoneyId}</p>
                 </div>
               )}
               
               {paymentData.productInfo && (
                 <div>
-                  <span className="font-medium text-muted-foreground">Product:</span>
-                  <p className="text-foreground">{paymentData.productInfo}</p>
+                  <span className="muted">Product:</span>
+                  <p className="body">{paymentData.productInfo}</p>
                 </div>
               )}
               
               <div>
-                <span className="font-medium text-muted-foreground">Customer:</span>
-                <p className="text-foreground">{paymentData.firstName}</p>
-                <p className="text-muted-foreground text-xs">{paymentData.email}</p>
+                <span className="muted">Customer:</span>
+                <p className="body">{paymentData.firstName}</p>
+                <p className="muted">{paymentData.email}</p>
               </div>
             </div>
           </div>

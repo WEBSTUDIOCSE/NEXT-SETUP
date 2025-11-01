@@ -89,8 +89,8 @@ export default function SignupForm() {
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
-          <CardDescription>
+          <CardTitle className="subheading">Create Account</CardTitle>
+          <CardDescription className="muted">
             Enter your information to create a new account
           </CardDescription>
         </CardHeader>

@@ -88,8 +88,8 @@ export default function LoginForm() {
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
-          <CardDescription>
+          <CardTitle className="subheading">Sign In</CardTitle>
+          <CardDescription className="muted">
             Enter your email and password to access your account.
           </CardDescription>
         </CardHeader>

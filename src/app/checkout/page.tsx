@@ -53,7 +53,7 @@ function CheckoutContent() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading...</p>
+          <p className="mt-4 muted">Loading...</p>
         </div>
       </div>
     );
@@ -106,8 +106,8 @@ function CheckoutContent() {
             Back
           </Button>
           <div>
-            <h1 className="text-3xl font-bold">Secure Checkout</h1>
-            <p className="text-muted-foreground">Complete your payment safely</p>
+            <h1 className="heading">Secure Checkout</h1>
+            <p className="muted">Complete your payment safely</p>
           </div>
         </div>
         

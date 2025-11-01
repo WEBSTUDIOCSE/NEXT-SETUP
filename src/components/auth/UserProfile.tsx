@@ -74,10 +74,10 @@ export default function UserProfile() {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <CardTitle className="text-xl">
+                <CardTitle className="title">
                   {user.displayName || 'Anonymous User'}
                 </CardTitle>
-                <CardDescription className="flex items-center mt-1">
+                <CardDescription className="muted flex items-center mt-1">
                   <Mail className="h-4 w-4 mr-1" />
                   {user.email}
                 </CardDescription>
@@ -106,7 +106,7 @@ export default function UserProfile() {
         <CardContent>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Email Verification</span>
+              <span className="body">Email Verification</span>
               <Badge variant={user.emailVerified ? "default" : "secondary"}>
                 {user.emailVerified ? (
                   <>
@@ -127,22 +127,22 @@ export default function UserProfile() {
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <User className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium">User ID:</span>
-                <span className="text-sm text-muted-foreground font-mono">{user.uid}</span>
+                <span className="body">User ID:</span>
+                <span className="code">{user.uid}</span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium">Account Created:</span>
-                <span className="text-sm text-muted-foreground">
+                <span className="body">Account Created:</span>
+                <span className="muted">
                   {formatDate(user.metadata.creationTime)}
                 </span>
               </div>
 
               <div className="flex items-center space-x-2">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm font-medium">Last Sign In:</span>
-                <span className="text-sm text-muted-foreground">
+                <span className="body">Last Sign In:</span>
+                <span className="muted">
                   {formatDate(user.metadata.lastSignInTime)}
                 </span>
               </div>
@@ -153,8 +153,8 @@ export default function UserProfile() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Account Security</CardTitle>
-          <CardDescription>
+          <CardTitle className="title">Account Security</CardTitle>
+          <CardDescription className="muted">
             Manage your account security settings
           </CardDescription>
         </CardHeader>
@@ -162,8 +162,8 @@ export default function UserProfile() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium">Provider</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="body">Provider</p>
+                <p className="muted">
                   {user.providerData[0]?.providerId === 'google.com' ? 'Google' : 'Email/Password'}
                 </p>
               </div>
@@ -203,8 +203,8 @@ export default function UserProfile() {
       {/* Danger Zone */}
       <Card className="border-destructive">
         <CardHeader>
-          <CardTitle className="text-lg text-destructive">Danger Zone</CardTitle>
-          <CardDescription>
+          <CardTitle className="title text-destructive">Danger Zone</CardTitle>
+          <CardDescription className="muted">
             Irreversible and destructive actions
           </CardDescription>
         </CardHeader>

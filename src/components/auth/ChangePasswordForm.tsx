@@ -58,8 +58,8 @@ export default function ChangePasswordForm({ onSuccess, onCancel }: ChangePasswo
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CheckCircle className="h-12 w-12 mx-auto mb-2" />
-          <CardTitle className="text-xl">Password Changed Successfully</CardTitle>
-          <CardDescription>
+          <CardTitle className="title">Password Changed Successfully</CardTitle>
+          <CardDescription className="muted">
             Your password has been updated securely.
           </CardDescription>
         </CardHeader>
@@ -78,8 +78,8 @@ export default function ChangePasswordForm({ onSuccess, onCancel }: ChangePasswo
     <Card className="w-full max-w-md">
       <CardHeader className="text-center">
         <Lock className="h-8 w-8 text-primary mx-auto mb-2" />
-        <CardTitle className="text-xl">Change Password</CardTitle>
-        <CardDescription>
+        <CardTitle className="title">Change Password</CardTitle>
+        <CardDescription className="muted">
           Enter your current password and choose a new one.
         </CardDescription>
       </CardHeader>
