@@ -14,7 +14,7 @@ export default function Home() {
           <h2 className="text-2xl font-semibold mb-4">Features</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <div className="border rounded-lg p-4">
-              <h3 className="font-medium mb-2">🔐 Authentication</h3>
+              <h3 className="font-medium mb-2"> Authentication</h3>
               <p className="text-sm text-gray-600 mb-3">
                 Firebase Auth with email/password and Google OAuth
               </p>
@@ -29,7 +29,7 @@ export default function Home() {
             </div>
 
             <div className="border rounded-lg p-4">
-              <h3 className="font-medium mb-2">💳 Payments</h3>
+              <h3 className="font-medium mb-2">Payments</h3>
               <p className="text-sm text-gray-600 mb-3">
                 Secure PayU gateway integration with multiple payment methods
               </p>
@@ -39,7 +39,7 @@ export default function Home() {
             </div>
 
             <div className="border rounded-lg p-4">
-              <h3 className="font-medium mb-2">👤 Profile Management</h3>
+              <h3 className="font-medium mb-2">Profile Management</h3>
               <p className="text-sm text-gray-600 mb-3">
                 User profile, password change, and account management
               </p>
@@ -49,7 +49,7 @@ export default function Home() {
             </div>
 
             <div className="border rounded-lg p-4">
-              <h3 className="font-medium mb-2">⚡ Modern Stack</h3>
+              <h3 className="font-medium mb-2">Modern Stack</h3>
               <p className="text-sm text-gray-600">
                 Next.js 15, React 19, TypeScript, Tailwind CSS, shadcn/ui
               </p>
