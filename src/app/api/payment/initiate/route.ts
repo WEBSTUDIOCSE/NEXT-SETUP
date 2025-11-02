@@ -64,16 +64,8 @@ export async function POST(request: NextRequest) {
       ? 'http://localhost:3000' 
       : appUrl;
     
-    console.log('Payment initiate - URL construction:', {
-      NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-      baseUrl,
-      typeof_APP_URL: typeof process.env.NEXT_PUBLIC_APP_URL
-    });
-    
     const successUrl = `${baseUrl}/api/payment/success`;
     const failureUrl = `${baseUrl}/api/payment/failure`;
-    
-    console.log('Generated URLs:', { successUrl, failureUrl });
     
     // Generate hash string as per PayU documentation
     // Standard format: key|txnid|amount|productinfo|firstname|email|||||||||||salt
@@ -125,7 +117,6 @@ export async function POST(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('Payment initiation error:', error);
     return NextResponse.json({ 
       success: false, 
       error: error instanceof Error ? error.message : 'Payment initialization failed' 

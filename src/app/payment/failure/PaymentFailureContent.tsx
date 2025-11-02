@@ -39,16 +39,8 @@ export default function PaymentFailureContent() {
       try {
         if (authLoading) return;
         
-        // Log URL search params for debugging
-        console.log('Payment failure - URL search params:', {
-          params: Object.fromEntries(searchParams.entries()),
-          toString: searchParams.toString()
-        });
-        
         // Parse PayU response from URL parameters
         const response = PayuService.parsePaymentResponse(searchParams);
-        
-        console.log('Payment failure - Parsed response:', response);
         
         if (!response.txnid) {
           setError('Invalid payment response received');
@@ -84,17 +76,14 @@ export default function PaymentFailureContent() {
           
           const verifyResult = await verifyResponse.json();
           
-          if (!verifyResult.success) {
-            console.warn('Payment verification failed:', verifyResult.error);
-          }
+          // Payment verification handled
         } catch (verifyError) {
-          console.error('Payment verification error:', verifyError);
+          // Continue processing
         }
         
         setLoading(false);
         
       } catch (error) {
-        console.error('Payment failure page error:', error);
         setError('Failed to process payment response');
         setLoading(false);
       }
@@ -110,7 +99,7 @@ export default function PaymentFailureContent() {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       } catch (error) {
-        console.error('Failed to copy transaction ID:', error);
+        // Failed to copy
       }
     }
   };

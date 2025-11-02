@@ -47,12 +47,10 @@ async function verifyWithPayU(txnId: string): Promise<{ verified: boolean; data:
     const merchantSalt = process.env.PAYU_MERCHANT_SALT;
     
     if (!merchantKey || !merchantSalt) {
-      console.error('PayU credentials not configured');
       return { verified: false, data: null };
     }
     
     if (!txnId) {
-      console.error('Transaction ID is required for verification');
       return { verified: false, data: null };
     }
     
@@ -88,7 +86,6 @@ async function verifyWithPayU(txnId: string): Promise<{ verified: boolean; data:
       data
     };
   } catch (error) {
-    console.error('PayU verification error:', error);
     return { verified: false, data: null };
   }
 }
@@ -97,9 +94,6 @@ export async function POST(request: NextRequest) {
   try {
     const responseData = await request.json();
     const { txnid, status, hash, amount } = responseData;
-    
-    // Log the incoming data for debugging
-    console.log('Payment verification request:', { txnid, status, amount });
     
     if (!txnid) {
       return NextResponse.json({ 
@@ -112,7 +106,6 @@ export async function POST(request: NextRequest) {
     if (hash) {
       const calculatedHash = generateResponseHash(responseData);
       if (hash !== calculatedHash) {
-        console.error('Hash verification failed for transaction:', txnid);
         return NextResponse.json({ 
           success: false, 
           error: 'Invalid payment signature' 
@@ -138,19 +131,10 @@ export async function POST(request: NextRequest) {
         paymentStatus = 'failed';
     }
     
-    // Log payment verification for debugging
-    console.log('Payment verification completed:', {
-      txnId: txnid,
-      status: paymentStatus,
-      amount,
-      payuResponse: responseData
-    });
-    
     // For successful payments, optionally verify with PayU server
     if (paymentStatus === 'success' && txnid) {
       const verification = await verifyWithPayU(txnid);
       if (!verification.verified) {
-        console.warn('PayU server verification failed for transaction:', txnid);
         paymentStatus = 'failed';
       }
     }
@@ -167,7 +151,6 @@ export async function POST(request: NextRequest) {
     });
     
   } catch (error) {
-    console.error('Payment verification error:', error);
     return NextResponse.json({ 
       success: false, 
       error: error instanceof Error ? error.message : 'Payment verification failed' 

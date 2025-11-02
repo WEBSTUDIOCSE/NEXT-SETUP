@@ -73,12 +73,10 @@ export class PayuService {
     const { baseUrl } = PAYU_CONFIG;
     
     if (!baseUrl || baseUrl === 'null' || baseUrl === 'undefined') {
-      console.error('PayU baseUrl is invalid:', baseUrl);
       throw new Error('PayU configuration error: Invalid base URL');
     }
     
     const paymentUrl = `${baseUrl}/${PAYU_ENDPOINTS.PAYMENT}`;
-    console.log('PayU payment URL:', paymentUrl);
     
     return paymentUrl;
   }
@@ -89,12 +87,6 @@ export class PayuService {
    */
   static submitPaymentForm(formData: PaymentFormData): void {
     try {
-      console.log('Submitting payment form with data:', {
-        txnid: formData.txnid,
-        amount: formData.amount,
-        key: formData.key
-      });
-      
       // Validate required fields
       if (!formData.txnid || !formData.amount || !formData.hash) {
         throw new Error('Missing required payment data');
@@ -123,9 +115,6 @@ export class PayuService {
       // Add form to DOM and submit
       document.body.appendChild(form);
       
-      console.log('Form action URL:', form.action);
-      console.log('Form fields count:', form.children.length);
-      
       form.submit();
       
       // Clean up - remove form after submission
@@ -136,7 +125,6 @@ export class PayuService {
       }, 1000);
       
     } catch (error) {
-      console.error('Error submitting payment form:', error);
       throw new Error('Failed to submit payment form');
     }
   }

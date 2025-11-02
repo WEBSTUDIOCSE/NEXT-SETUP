@@ -70,23 +70,5 @@ export const verifyEnvironmentConfiguration = (): void => {
   const environment = getCurrentEnvironment();
   const config = getCurrentFirebaseConfig();
   
-  console.log('\n🔍 ENVIRONMENT VERIFICATION:');
-  console.log(`IS_PRODUCTION flag: ${IS_PRODUCTION}`);
-  console.log(`Selected Environment: ${environment.name}`);
-  console.log(`Project ID: ${config.projectId}`);
-  console.log(`Auth Domain: ${config.authDomain}`);
-  console.log(`API Key: ${config.apiKey.substring(0, 10)}...`);
-  console.log(`App ID: ${config.appId}`);
-  console.log(`Messaging Sender ID: ${config.messagingSenderId}`);
-  
-  // Verify the configuration matches the expected environment
-  if (IS_PRODUCTION && environment.name !== 'PROD') {
-    console.error('❌ MISMATCH: IS_PRODUCTION is true but environment is not PROD!');
-  } else if (!IS_PRODUCTION && environment.name !== 'UAT') {
-    console.error('❌ MISMATCH: IS_PRODUCTION is false but environment is not UAT!');
-  } else {
-    console.log('✅ Environment configuration is consistent');
-  }
-  
-  console.log(''); // Empty line for readability
+  // Environment verification removed for production
 }; 

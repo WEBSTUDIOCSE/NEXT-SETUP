@@ -13,18 +13,10 @@ export interface PayuConfig {
   paymentMode: 'test' | 'production';
 }
 
-// Debug environment variables
-console.log('Environment debug:', {
-  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
-  typeof_APP_URL: typeof process.env.NEXT_PUBLIC_APP_URL,
-  IS_PRODUCTION
-});
-
 // Helper function to safely get app URL
 function getAppUrl(): string {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;
   if (!appUrl || appUrl === 'null' || appUrl === 'undefined') {
-    console.warn('NEXT_PUBLIC_APP_URL is not set, using localhost');
     return 'http://localhost:3000';
   }
   return appUrl;

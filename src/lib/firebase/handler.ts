@@ -119,11 +119,6 @@ export async function firebaseHandler<T>(
     const endTime = performance.now();
     const duration = endTime - startTime;
     
-    // Log performance in development
-    if (process.env.NODE_ENV === 'development' && context) {
-      console.log(`🔥 Firebase ${context} completed in ${duration.toFixed(2)}ms`);
-    }
-    
     return createSuccessResponse(result);
     
   } catch (error) {
@@ -132,34 +127,11 @@ export async function firebaseHandler<T>(
       const userFriendlyMessage = ERROR_MESSAGES[error.code] || 
                                   `Firebase error: ${error.message}`;
       
-      // Log detailed error in development
-      if (process.env.NODE_ENV === 'development') {
-        console.error(`🔥 Firebase error in ${context || 'unknown operation'}:`, {
-          code: error.code || 'unknown-code',
-          message: error.message || 'unknown-message',
-          customMessage: userFriendlyMessage,
-          fullError: error
-        });
-      }
-      
       return createErrorResponse<T>(userFriendlyMessage, error.code);
     }
     
     // Handle other errors
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    
-    // Log non-Firebase errors in development
-    if (process.env.NODE_ENV === 'development') {
-      console.error(`🔥 Non-Firebase error in ${context || 'unknown operation'}:`, {
-        message: errorMessage,
-        error: error,
-        type: typeof error
-      });
-    }
-    
-    if (process.env.NODE_ENV === 'development') {
-      console.error(`🔥 Unexpected error in ${context || 'unknown operation'}:`, error);
-    }
     
     return createErrorResponse<T>(errorMessage, 'unknown');
   }

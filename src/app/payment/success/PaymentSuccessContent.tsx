@@ -84,19 +84,14 @@ export default function PaymentSuccessContent() {
           
           const verifyResult = await verifyResponse.json();
           
-          if (!verifyResult.success) {
-            console.warn('Payment verification failed:', verifyResult.error);
-            // Still show the payment status based on PayU response
-          }
+          // Payment verification handled
         } catch (verifyError) {
-          console.error('Payment verification error:', verifyError);
           // Continue to show payment status even if verification fails
         }
         
         setLoading(false);
         
       } catch (error) {
-        console.error('Payment success page error:', error);
         setError('An error occurred while processing the payment response');
         setLoading(false);
       }
@@ -111,7 +106,7 @@ export default function PaymentSuccessContent() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy: ', err);
+      // Failed to copy
     }
   };
   

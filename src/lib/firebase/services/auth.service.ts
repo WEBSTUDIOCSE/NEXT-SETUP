@@ -267,8 +267,7 @@ export const AuthService = {
         const userDocRef = doc(db, IS_PRODUCTION ? 'prod_users' : 'uat_users', user.uid);
         await deleteDoc(userDocRef);
       } catch (firestoreError) {
-        // Log but don't fail if Firestore deletion fails
-        console.warn('Failed to delete user data from Firestore:', firestoreError);
+        // Continue even if Firestore deletion fails
       }
 
       // Delete the user account

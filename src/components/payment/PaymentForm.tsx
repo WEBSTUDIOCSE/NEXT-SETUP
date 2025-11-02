@@ -28,7 +28,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from '@/components/ui/card';
 import {
   Select,
@@ -175,7 +174,6 @@ export default function PaymentForm({
         
       } catch (error) {
         clearTimeout(timeoutId);
-        console.error('Payment form error:', error);
         
         let errorMessage = 'Payment initialization failed';
         if (error instanceof Error) {
@@ -189,7 +187,6 @@ export default function PaymentForm({
         throw new Error(errorMessage); // Re-throw to be caught by outer catch
       }
     } catch (error) {
-      console.error('Payment form error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Payment initialization failed';
       setError(errorMessage);
       onError?.(errorMessage);

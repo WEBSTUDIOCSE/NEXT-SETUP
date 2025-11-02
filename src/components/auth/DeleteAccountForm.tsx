@@ -49,7 +49,6 @@ export default function DeleteAccountForm() {
       }
     } catch (err) {
       setError('An unexpected error occurred');
-      console.error('Delete account error:', err);
     } finally {
       setIsDeleting(false);
     }
@@ -71,7 +70,6 @@ export default function DeleteAccountForm() {
       }
     } catch (err) {
       setError('Failed to delete account. Please try again.');
-      console.error('Google account deletion error:', err);
     } finally {
       setIsDeleting(false);
     }

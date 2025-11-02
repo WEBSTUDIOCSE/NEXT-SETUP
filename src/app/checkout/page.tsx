@@ -5,9 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import PaymentForm from '@/components/payment/PaymentForm';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ArrowLeft, Shield, Lock, CreditCard } from 'lucide-react';
+import { ArrowLeft, Shield } from 'lucide-react';
 import Link from 'next/link';
 
 function CheckoutContent() {
@@ -84,11 +84,11 @@ function CheckoutContent() {
   
   // Payment handlers (simplified)
   const handlePaymentSuccess = (paymentId: string) => {
-    console.log('Payment initiated:', paymentId);
+    // Payment initiated successfully
   };
   
   const handlePaymentError = (error: string) => {
-    console.error('Payment error:', error);
+    // Handle payment error
   };
   
   return (
