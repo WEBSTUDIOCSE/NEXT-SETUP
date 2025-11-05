@@ -43,9 +43,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     // Listen for authentication state changes
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
       setLoading(false);
+      
+      // Set cookie for middleware to access
+      if (user) {
+        // Get Firebase ID token
+        const token = await user.getIdToken();
+        
+        // Set auth cookie via API route with user data
+        await fetch('/api/auth/session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            token,
+            user: {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+              emailVerified: user.emailVerified,
+            }
+          }),
+        });
+      } else {
+        // Clear auth cookie
+        await fetch('/api/auth/session', {
+          method: 'DELETE',
+        });
+      }
     });
 
     return () => unsubscribe();

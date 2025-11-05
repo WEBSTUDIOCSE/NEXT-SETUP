@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useSearchParams } from 'next/navigation';
 import { PayuService } from '@/lib/payment/payu-service';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,8 +23,6 @@ interface PaymentResponseData {
 }
 
 export default function PaymentSuccessContent() {
-  const { user, loading: authLoading } = useAuth();
-  const router = useRouter();
   const searchParams = useSearchParams();
   
   const [loading, setLoading] = useState(true);
@@ -38,14 +35,6 @@ export default function PaymentSuccessContent() {
   useEffect(() => {
     const processPayment = async () => {
       try {
-        if (authLoading) return;
-        
-        // Redirect to login if not authenticated
-        if (!user) {
-          router.push('/login?message=Please sign in to view payment status');
-          return;
-        }
-        
         // Parse PayU response from URL parameters
         const response = PayuService.parsePaymentResponse(searchParams);
         
@@ -98,7 +87,7 @@ export default function PaymentSuccessContent() {
     };
     
     processPayment();
-  }, [user, authLoading, router, searchParams]);
+  }, [searchParams]);
   
   const copyToClipboard = async (text: string) => {
     try {
@@ -110,7 +99,7 @@ export default function PaymentSuccessContent() {
     }
   };
   
-  if (authLoading || loading) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center">

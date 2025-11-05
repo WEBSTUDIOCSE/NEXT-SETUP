@@ -1,34 +1,19 @@
-'use client';
-
-import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
+import { getCurrentUser } from '@/lib/auth/server';
 import DeleteAccountForm from '@/components/auth/DeleteAccountForm';
+import type { Metadata } from 'next';
 
-export default function DeleteAccountPage() {
-  const { user, loading } = useAuth();
-  const router = useRouter();
+export const metadata: Metadata = {
+  title: 'Delete Account',
+  description: 'Permanently delete your account and all associated data',
+};
 
-  useEffect(() => {
-    // Only redirect if not loading and no user
-    if (!loading && !user) {
-      router.replace('/login?message=Please sign in to access account deletion');
-    }
-  }, [user, loading, router]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
-  }
+export default async function DeleteAccountPage() {
+  // Server-side auth check - no loading state needed!
+  const user = await getCurrentUser();
 
   if (!user) {
-    return null;
+    redirect('/login?redirect=/delete-account&message=Please sign in to access account deletion');
   }
 
   return (

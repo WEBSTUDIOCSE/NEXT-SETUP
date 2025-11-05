@@ -1,39 +1,24 @@
-'use client';
-
-import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
+import { getCurrentUser } from '@/lib/auth/server';
 import ForgotPasswordForm from '@/components/auth/ForgotPasswordForm';
+import type { Metadata } from 'next';
 
-export default function ForgotPasswordPage() {
-  const { isAuthenticated, loading } = useAuth();
-  const router = useRouter();
+export const metadata: Metadata = {
+  title: 'Forgot Password',
+  description: 'Reset your account password',
+};
 
-  useEffect(() => {
-    if (!loading && isAuthenticated) {
-      router.push('/profile');
-    }
-  }, [isAuthenticated, loading, router]);
+export default async function ForgotPasswordPage() {
+  // If user is already authenticated, redirect to profile
+  const user = await getCurrentUser();
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (isAuthenticated) {
-    return null; // Will redirect via useEffect
+  if (user) {
+    redirect('/profile');
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <ForgotPasswordForm 
-        onSuccess={() => router.push('/login')}
         showBackToLogin={true}
       />
     </div>

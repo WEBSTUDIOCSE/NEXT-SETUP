@@ -39,12 +39,14 @@ export default function LoginForm() {
     }
   }, [searchParams]);
 
-  // Redirect if already authenticated
+  // Note: Page already handles server-side redirect if authenticated
+  // This is just a client-side optimization to avoid form render
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/profile');
+      const redirect = searchParams.get('redirect') || '/profile';
+      router.push(redirect);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, searchParams]);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -61,7 +63,9 @@ export default function LoginForm() {
     const result = await APIBook.auth.loginWithEmail(data.email, data.password);
     
     if (result.success) {
-      router.push('/profile');
+      // Redirect to original page or profile
+      const redirect = searchParams.get('redirect') || '/profile';
+      router.push(redirect);
     } else {
       setError(result.error || 'Login failed');
     }
@@ -76,7 +80,9 @@ export default function LoginForm() {
     const result = await APIBook.auth.loginWithGoogle();
     
     if (result.success) {
-      router.push('/profile');
+      // Redirect to original page or profile
+      const redirect = searchParams.get('redirect') || '/profile';
+      router.push(redirect);
     } else {
       setError(result.error || 'Google login failed');
     }

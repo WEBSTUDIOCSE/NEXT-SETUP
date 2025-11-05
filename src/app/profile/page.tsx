@@ -3,40 +3,26 @@
  * Displays user information and provides logout functionality
  */
 
-'use client';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { redirect } from 'next/navigation';
+import { getCurrentUser } from '@/lib/auth/server';
 import UserProfile from '@/components/auth/UserProfile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
-export default function ProfilePage() {
-  const { user, isAuthenticated, loading } = useAuth();
-  const router = useRouter();
+export const metadata: Metadata = {
+  title: 'Profile',
+  description: 'Manage your account settings and preferences',
+};
 
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push('/login');
-    }
-  }, [isAuthenticated, loading, router]);
+export default async function ProfilePage() {
+  // Server-side auth check
+  const user = await getCurrentUser();
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 muted">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated || !user) {
-    return null; // Will redirect via useEffect
+  if (!user) {
+    redirect('/login?redirect=/profile&message=Please sign in to view your profile');
   }
 
   return (
@@ -74,15 +60,21 @@ export default function ProfilePage() {
                 <CardTitle>Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button variant="outline" className="w-full justify-start">
-                  Edit Profile
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  Change Password
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  Privacy Settings
-                </Button>
+                <Link href="/profile" className="block">
+                  <Button variant="outline" className="w-full justify-start">
+                    Edit Profile
+                  </Button>
+                </Link>
+                <Link href="/change-password" className="block">
+                  <Button variant="outline" className="w-full justify-start">
+                    Change Password
+                  </Button>
+                </Link>
+                <Link href="/delete-account" className="block">
+                  <Button variant="outline" className="w-full justify-start">
+                    Delete Account
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
 
@@ -91,14 +83,6 @@ export default function ProfilePage() {
                 <CardTitle>Account Info</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="muted">Member since:</span>
-                  <span className="body">{user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : 'N/A'}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="muted">Last sign in:</span>
-                  <span className="body">{user.metadata.lastSignInTime ? new Date(user.metadata.lastSignInTime).toLocaleDateString() : 'N/A'}</span>
-                </div>
                 <div className="flex justify-between">
                   <span className="muted">Email verified:</span>
                   <span className={user.emailVerified ? 'success' : 'muted'}>

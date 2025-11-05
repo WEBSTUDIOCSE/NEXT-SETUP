@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useSearchParams } from 'next/navigation';
 import { PayuService } from '@/lib/payment/payu-service';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -24,8 +23,6 @@ interface PaymentFailureData {
 }
 
 export default function PaymentFailureContent() {
-  const { user, loading: authLoading } = useAuth();
-  const router = useRouter();
   const searchParams = useSearchParams();
   
   const [loading, setLoading] = useState(true);
@@ -37,8 +34,6 @@ export default function PaymentFailureContent() {
   useEffect(() => {
     const processFailedPayment = async () => {
       try {
-        if (authLoading) return;
-        
         // Parse PayU response from URL parameters
         const response = PayuService.parsePaymentResponse(searchParams);
         
@@ -90,7 +85,7 @@ export default function PaymentFailureContent() {
     };
     
     processFailedPayment();
-  }, [searchParams, user, authLoading, router]);
+  }, [searchParams]);
   
   const copyTransactionId = async () => {
     if (paymentData?.txnId) {
@@ -109,7 +104,7 @@ export default function PaymentFailureContent() {
     window.history.back();
   };
   
-  if (loading || authLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center">
