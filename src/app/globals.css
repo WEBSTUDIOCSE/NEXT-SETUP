@@ -114,33 +114,33 @@
   * {
     @apply border-border outline-ring/50;
   }
-  
+
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-rubik);
   }
-  
+
   /* Headings use Barlow (bold, geometric) */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-barlow);
   }
-  
+
   /* Body text elements use Rubik (rounded, friendly) */
   p, span, div, a, label, li, td, th {
     font-family: var(--font-rubik);
   }
-  
+
   /* Form elements use Rubik */
   input, textarea, select {
     font-family: var(--font-rubik);
   }
-  
+
   /* Buttons use Barlow (same as headings for consistency) */
   button {
     font-family: var(--font-barlow);
     font-weight: 600;
   }
-  
+
   /* Code elements use monospace */
   code, pre, kbd, samp {
     font-family: var(--font-geist-mono);
@@ -152,21 +152,21 @@
      MINIMAL TYPOGRAPHY SYSTEM
      Only Essential Classes - Easy to Use
      =========================================== */
-  
+
   /* ---------- HEADINGS (3 classes only) ---------- */
-  
+
   /* Main page heading */
   .heading {
     @apply text-2xl md:text-3xl font-bold text-primary;
     font-family: var(--font-barlow);
   }
-  
+
   /* Section/Card heading */
   .subheading {
     @apply text-lg md:text-xl font-semibold text-foreground;
     font-family: var(--font-barlow);
   }
-  
+
   /* Small heading */
   .title {
     @apply text-base md:text-lg font-semibold text-foreground;
@@ -174,34 +174,34 @@
   }
 
   /* ---------- BODY TEXT (2 classes only) ---------- */
-  
+
   /* Normal paragraph - inherits Rubik from base */
   .body {
     @apply text-sm text-foreground;
   }
-  
+
   /* Subtitle/Description - inherits Rubik from base */
   .muted {
     @apply text-sm text-muted-foreground;
   }
 
   /* ---------- STATUS (3 classes only) ---------- */
-  
+
   /* Inherits Rubik from base */
   .success {
     @apply text-sm font-medium text-primary;
   }
-  
+
   .error {
     @apply text-sm font-medium text-destructive;
   }
-  
+
   .warning {
     @apply text-sm font-medium text-muted-foreground;
   }
 
   /* ---------- CODE (1 class only) ---------- */
-  
+
   /* Explicitly set monospace (overrides base) */
   .code {
     @apply text-sm font-mono bg-muted px-2 py-1 rounded border border-border;

@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Define protected and public routes
 const protectedRoutes = [
+  '/dashboard',
   '/profile',
   '/delete-account',
   '/change-password',
@@ -43,7 +44,7 @@ export function middleware(request: NextRequest) {
 
   // Redirect authenticated users away from auth pages
   if (isAuthRoute && hasAuthCookie) {
-    return NextResponse.redirect(new URL('/profile', request.url));
+    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
   return NextResponse.next();

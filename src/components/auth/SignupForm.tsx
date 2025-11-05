@@ -31,7 +31,7 @@ export default function SignupForm() {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/profile');
+      router.push('/dashboard');
     }
   }, [isAuthenticated, router]);
 
@@ -77,7 +77,7 @@ export default function SignupForm() {
     const result = await APIBook.auth.loginWithGoogle();
     
     if (result.success) {
-      router.push('/profile');
+      router.push('/dashboard');
     } else {
       setError(result.error || 'Google signup failed');
     }

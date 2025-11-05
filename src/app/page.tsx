@@ -14,7 +14,17 @@ export default function Home() {
           <h2 className="subheading mb-4">Features</h2>
           <div className="grid md:grid-cols-2 gap-4">
             <div className="border rounded-lg p-4">
-              <h3 className="title mb-2"> Authentication</h3>
+              <h3 className="title mb-2">Dashboard</h3>
+              <p className="body mb-3">
+                Modern dashboard with sidebar navigation
+              </p>
+              <Link href="/dashboard">
+                <Button size="sm">Dashboard</Button>
+              </Link>
+            </div>
+
+            <div className="border rounded-lg p-4">
+              <h3 className="title mb-2">Authentication</h3>
               <p className="body mb-3">
                 Firebase Auth with email/password and Google OAuth
               </p>

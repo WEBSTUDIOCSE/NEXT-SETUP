@@ -43,7 +43,7 @@ export default function LoginForm() {
   // This is just a client-side optimization to avoid form render
   useEffect(() => {
     if (isAuthenticated) {
-      const redirect = searchParams.get('redirect') || '/profile';
+      const redirect = searchParams.get('redirect') || '/dashboard';
       router.push(redirect);
     }
   }, [isAuthenticated, router, searchParams]);
@@ -63,8 +63,8 @@ export default function LoginForm() {
     const result = await APIBook.auth.loginWithEmail(data.email, data.password);
     
     if (result.success) {
-      // Redirect to original page or profile
-      const redirect = searchParams.get('redirect') || '/profile';
+      // Redirect to original page or dashboard
+      const redirect = searchParams.get('redirect') || '/dashboard';
       router.push(redirect);
     } else {
       setError(result.error || 'Login failed');
@@ -80,8 +80,8 @@ export default function LoginForm() {
     const result = await APIBook.auth.loginWithGoogle();
     
     if (result.success) {
-      // Redirect to original page or profile
-      const redirect = searchParams.get('redirect') || '/profile';
+      // Redirect to original page or dashboard
+      const redirect = searchParams.get('redirect') || '/dashboard';
       router.push(redirect);
     } else {
       setError(result.error || 'Google login failed');
