@@ -1,15 +1,16 @@
 import { redirect } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth/server';
 import { AppSidebar } from '@/components/dashboard/app-sidebar';
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { PageHeader } from '@/components/dashboard/page-header';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Dashboard',
-  description: 'User dashboard',
+  description: 'Manage your account',
 };
 
-export default async function DashboardLayout({
+export default async function ProtectedLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -18,17 +19,16 @@ export default async function DashboardLayout({
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect('/login?redirect=/dashboard&message=Please sign in to access dashboard');
+    redirect('/login?redirect=/dashboard&message=Please sign in to continue');
   }
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AppSidebar user={user} />
-        <main className="flex-1">
-          {children}
-        </main>
-      </div>
+      <AppSidebar user={user} />
+      <SidebarInset>
+        <PageHeader />
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   );
 }

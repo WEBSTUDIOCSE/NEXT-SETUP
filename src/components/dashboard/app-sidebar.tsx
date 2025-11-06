@@ -151,8 +151,8 @@ export function AppSidebar({ user }: AppSidebarProps) {
           <SidebarGroupLabel>Account</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <Collapsible defaultOpen={false} className="group/collapsible">
-                <SidebarMenuItem>
+              <SidebarMenuItem>
+                <Collapsible defaultOpen={false} className="group/collapsible">
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton tooltip="Settings">
                       <Settings />
@@ -174,8 +174,8 @@ export function AppSidebar({ user }: AppSidebarProps) {
                       ))}
                     </SidebarMenuSub>
                   </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
+                </Collapsible>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
