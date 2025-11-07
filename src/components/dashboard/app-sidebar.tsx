@@ -3,17 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  LayoutDashboard,
-  User,
-  CreditCard,
-  LogOut,
-  ChevronRight,
-  Home,
-  Shield,
-  KeyRound,
-  Settings,
-} from 'lucide-react';
+import { LayoutDashboard, LogOut, Home, KeyRound, User } from 'lucide-react';
 
 import {
   Sidebar,
@@ -26,16 +16,9 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+// Collapsible removed (Account section removed)
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -53,29 +36,6 @@ const navItems = [
     title: 'Dashboard',
     url: '/dashboard',
     icon: LayoutDashboard,
-  },
-  {
-    title: 'Profile',
-    url: '/profile',
-    icon: User,
-  },
-  {
-    title: 'Checkout',
-    url: '/checkout',
-    icon: CreditCard,
-  },
-];
-
-const settingsItems = [
-  {
-    title: 'Change Password',
-    url: '/change-password',
-    icon: KeyRound,
-  },
-  {
-    title: 'Delete Account',
-    url: '/delete-account',
-    icon: Shield,
   },
 ];
 
@@ -147,38 +107,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel>Account</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <Collapsible defaultOpen={false} className="group/collapsible">
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip="Settings">
-                      <Settings />
-                      <span>Settings</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {settingsItems.map((item) => (
-                        <SidebarMenuSubItem key={item.url}>
-                          <SidebarMenuSubButton asChild isActive={pathname === item.url}>
-                            <Link href={item.url}>
-                              <item.icon />
-                              <span>{item.title}</span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </Collapsible>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {/* Account section removed per request */}
       </SidebarContent>
 
       {/* Footer - User Profile */}
@@ -202,7 +131,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
                   </div>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" align="end" className="w-56">
+                <DropdownMenuContent side="top" align="end" className="w-56">
                 <DropdownMenuItem asChild>
                   <Link href="/profile">
                     <User className="mr-2 h-4 w-4" />
